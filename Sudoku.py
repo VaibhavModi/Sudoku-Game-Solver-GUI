@@ -65,16 +65,18 @@ class draw_window:
 		master.geometry('500x520')
 		master.title('Sudoku Solver')
 		master.resizable(False, False)
+		master.configure(bg='light blue')
 		self.var=tk.IntVar()
 		self.upper_frame(master)
 		self.lower_frame(master)
 
 	def upper_frame(self,master):
 		global button1
-		frame1=tk.Frame(master)
-		label1 = tk.Label(frame1,text='>     To solve a Sudoku, fill up the board and press solve',font=('Times New Roman',14)).pack(side='top',anchor='w')
-		button1 = tk.Button(frame1,text='Solve', height=2,width=10, font=('Times New Roman',12,'bold') ,command=lambda: self.solve(),fg='blue').pack(side='left', anchor='sw',padx=190)
-		frame1.grid(column=0,row=0, padx=10,pady=(10,1),sticky='w',ipady=20,ipadx=150)
+		frame1=tk.Frame(master,bg='light blue')
+		label1 = tk.Label(frame1,bg='light blue',fg='red',text='To solve a Sudoku, fill up the board and press solve',font=('Monolithic',14)).pack(side='top',anchor='w',padx=20,pady=(10,1))
+		solve_bt = tk.Button(frame1,text='Solve', height=1,width=5, font=('Times New Roman',15,'bold') ,command=lambda: self.solve(),bg='orange',fg='White',padx=0).pack(side='left', anchor='sw',padx=(15,10),pady=(0,10))
+		clear_bt = tk.Button(frame1,text='Clear', height=1,width=5, font=('Times New Roman',15,'bold') ,command=lambda: self.clear(),bg='orange',fg='White',padx=0).pack(side='left', anchor='se',padx=(325,10),pady=(0,10))
+		frame1.grid(column=0,row=0, padx=(0,20),pady=(0,1),sticky='w',ipady=20,ipadx=150)
 
 	# Sudoku 9x9 Board
 	def lower_frame(self,master):
@@ -82,8 +84,8 @@ class draw_window:
 		for row in range(9):
 			entrybox_list.append([])
 			for column in range(9):
-				temp = tk.Entry(frame2, width=3,justify='center',font=('Arial',17))
-				temp.grid(column=column,row=row,ipady=5,ipadx=5)
+				temp = tk.Entry(frame2, width=3,justify='center',font=('Arial',17),borderwidth=2,relief="ridge",fg='blue')
+				temp.grid(column=column,row=row,ipady=4,ipadx=4)
 				entrybox_list[row].append(temp)
 		frame2.grid(column=0,row=1,padx=10,pady=(15,10),sticky='w')
 
@@ -99,8 +101,12 @@ class draw_window:
 					entrybox_list[i][j].configure(fg='blue')
 		solution()
 
-	def solve1(self):
-		pass
+	def clear(self):
+		for entries in entrybox_list:
+			sudoku_array.pop()
+			for entry in entries:
+				entry.delete(0,'end')
+				entry.configure(fg='blue')
 
 if __name__=='__main__':
 	sudoku_array=[]
@@ -118,9 +124,3 @@ if __name__=='__main__':
 	window_app= tk.Tk()
 	drawing_object=draw_window(window_app)
 	window_app.mainloop()
-
-	'''Result=solution()
-	if Result:
-		print(sudoku_array)
-	else:
-		print('Error',Result)'''
