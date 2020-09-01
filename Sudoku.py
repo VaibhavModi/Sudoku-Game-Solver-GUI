@@ -67,24 +67,27 @@ class draw_window:
         master.title('Sudoku Solver')
         master.resizable(False, False)
         master.configure(bg='light blue')
+        self.master=master
         self.var = tk.IntVar()
         self.upper_frame(master)
         self.lower_frame(master)
 
     def upper_frame(self, master):
-        global button1
+        global solve_bt
         frame1 = tk.Frame(master, bg='light blue')
-        label1 = tk.Label(frame1, fg='purple', bg='silver',text='>> To solve a Sudoku, fill up the board and press solve', font=('Monolithic', 14)).pack(side='top', anchor='w', padx=20, pady=(10, 1))
-        solve_bt = tk.Button(frame1, text='Solve', height=1, width=5, font=('Times New Roman', 15, 'bold'),
-                             command=lambda: self.solve(), bg='orange', fg='White', padx=0).pack(side='left',
-                                                                                                 anchor='sw',
-                                                                                                 padx=(15, 10),
-                                                                                                 pady=(0, 10))
-        clear_bt = tk.Button(frame1, text='Clear', height=1, width=5, font=('Times New Roman', 15, 'bold'),
-                             command=lambda: self.clear(), bg='orange', fg='White', padx=0).pack(side='left',
-                                                                                                 anchor='se',
-                                                                                                 padx=(325, 10),
-                                                                                                 pady=(0, 10))
+        label1 = tk.Label(frame1,fg='purple', bg='silver',text='>> To solve a Sudoku, fill up the board and press solve', font=('Monolithic', 14)).pack(side='top', anchor='w', padx=20, pady=(10, 1))
+        solve_bt = tk.Button(frame1, text='Solve', activeforeground='white',activebackground= 'purple', height=1, width=5, font=('Times New Roman', 15, 'bold'),
+                             command=lambda: self.solve(), bg='orange', fg='White', padx=0)
+        solve_bt.pack(side='left',
+                      anchor='sw',
+                      padx=(15, 10),
+                      pady=(0, 10))
+        clear_bt = tk.Button(frame1, text='Clear', height=1, width=5,activeforeground='white',activebackground= 'purple', font=('Times New Roman', 15, 'bold'),
+                             command=lambda: self.clear(), bg='orange', fg='White', padx=0)
+        clear_bt.pack(side='left',
+                      anchor='se',
+                      padx=(325, 10),
+                      pady=(0, 10))
         frame1.grid(column=0, row=0, padx=(0, 20), pady=(0, 1), sticky='w', ipady=20, ipadx=150)
 
     # Sudoku 9x9 Board
@@ -105,7 +108,6 @@ class draw_window:
             entrybox_list[row][5].grid(row=row,column=5,ipady=4, ipadx=4,padx=(0,3))
             entrybox_list[2][row].grid(row=2,column=row,ipady=4, ipadx=4,pady=(0,3))
             entrybox_list[5][row].grid(row=5,column=row,ipady=4, ipadx=4,pady=(0,3))
-
         frame2.grid(column=0, row=1, padx=10, pady=(15, 10), sticky='w')
 
     def solve(self):
@@ -119,6 +121,8 @@ class draw_window:
                     sudoku_array[i].append(int(entrybox_list[i][j].get()))
                     entrybox_list[i][j].configure(fg='blue')
 
+        solve_bt.configure(state='disable')
+        self.master.focus()
         Sudoku_SolverObj=Sudoku_Solver()
         Sudoku_SolverObj.solution()
 
@@ -128,21 +132,14 @@ class draw_window:
             for entry in entries:
                 entry.delete(0, 'end')
                 entry.configure(fg='blue')
+        solve_bt.configure(state='active')
+        self.master.focus()
 
 
 if __name__ == '__main__':
+
     sudoku_array = []
 
-    '''sudoku_array=[[0, 0, 6, 0, 0, 7, 0, 0, 0],
-                [2, 8, 5, 0, 0, 0, 0, 0, 0],
-                [0, 0, 4, 9, 0, 6, 0, 0, 0],
-                [1, 0, 0, 0, 0, 0, 0, 6, 0],
-                [0, 0, 0, 0, 1, 3, 9, 0, 0],
-                [0, 2, 0, 0, 0, 0, 4, 0, 0],
-                [4, 0, 8, 5, 0, 0, 0, 0, 2],
-                [0, 0, 0, 8, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 6, 0, 0, 8, 5]]'''
-
     window_app = tk.Tk()
-    drawing_object = draw_window(window_app)
+    draw_window(window_app)
     window_app.mainloop()
