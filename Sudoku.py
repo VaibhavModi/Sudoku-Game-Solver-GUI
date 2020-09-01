@@ -89,6 +89,7 @@ class draw_window:
 
 	def solve(self):
 		for i in range(9):
+			sudoku_array.append([])
 			for j in range(9):
 				if entrybox_list[i][j].get() =='':
 					sudoku_array[i].append(0)
@@ -102,7 +103,7 @@ class draw_window:
 		pass
 
 if __name__=='__main__':
-	sudoku_array=[[],[],[],[],[],[],[],[],[]]
+	sudoku_array=[]
 
 	'''sudoku_array=[[0, 0, 6, 0, 0, 7, 0, 0, 0],
 				[2, 8, 5, 0, 0, 0, 0, 0, 0],
