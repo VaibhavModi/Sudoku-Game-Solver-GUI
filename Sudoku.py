@@ -1,4 +1,5 @@
 import tkinter as tk
+import time
 
 def row_check(array,x,number_toenter):
 	for row_element in array[x]:
@@ -39,7 +40,7 @@ def check_emptycells(array):
 	else:
 		return False
 
-def solution(sudoku_array):
+def solution():
 	position=check_emptycells(sudoku_array)
 	if not position:
 		return True
@@ -48,31 +49,34 @@ def solution(sudoku_array):
 	for i in range(1,10):
 		if number_safety(sudoku_array,x,y,i):
 			sudoku_array[x][y]=i
-			if solution(sudoku_array):
+			entrybox_list[x][y].insert(0,i)
+			if solution():
 				return True
 			sudoku_array[x][y]=0
-			 
+			entrybox_list[x][y].delete(0,'end')
 	return False
 
-class draw_window():
-	global entrybox_list
+
+class draw_window:
+	global entrybox_list, var
 	entrybox_list=[]
 
 	def __init__(self, master):
 		master.geometry('500x520')
 		master.title('Sudoku Solver')
 		master.resizable(False, False)
+		self.var=tk.IntVar()
 		self.upper_frame(master)
 		self.lower_frame(master)
 
 	def upper_frame(self,master):
 		global button1
 		frame1=tk.Frame(master)
-		label1 = tk.Label(frame1,text='Testing this thing here',font=('Arial',12)).grid(row=0)
-		button1 = tk.Button(frame1,text='Click here to enter a number', command=lambda: self.insert()).grid(row=1)
-		frame1.grid(column=0,row=0, padx=10,pady=10,sticky='w')
+		label1 = tk.Label(frame1,text='>     To solve a Sudoku, fill up the board and press solve',font=('Times New Roman',14)).pack(side='top',anchor='w')
+		button1 = tk.Button(frame1,text='Solve', height=2,width=10, font=('Times New Roman',12,'bold') ,command=lambda: self.solve(),fg='blue').pack(side='left', anchor='sw',padx=190)
+		frame1.grid(column=0,row=0, padx=10,pady=(10,1),sticky='w',ipady=20,ipadx=150)
 
-	#Sudoku 9x9 Board
+	# Sudoku 9x9 Board
 	def lower_frame(self,master):
 		frame2 = tk.Frame(master)
 		for row in range(9):
@@ -81,28 +85,40 @@ class draw_window():
 				temp = tk.Entry(frame2, width=3,justify='center',font=('Arial',17))
 				temp.grid(column=column,row=row,ipady=5,ipadx=5)
 				entrybox_list[row].append(temp)
-		frame2.grid(column=0,row=1,padx=10,pady=(70,20))
+		frame2.grid(column=0,row=1,padx=10,pady=(15,10),sticky='w')
 
-	def insert(self):
-		entrybox_list[0][1].insert(0,'ok')
+	def solve(self):
+		for i in range(9):
+			for j in range(9):
+				if entrybox_list[i][j].get() =='':
+					sudoku_array[i].append(0)
+					entrybox_list[i][j].configure(fg='green')
+				else:
+					sudoku_array[i].append(int(entrybox_list[i][j].get()))
+					entrybox_list[i][j].configure(fg='blue')
+		solution()
+
+	def solve1(self):
+		pass
 
 if __name__=='__main__':
+	sudoku_array=[[],[],[],[],[],[],[],[],[]]
+
+	'''sudoku_array=[[0, 0, 6, 0, 0, 7, 0, 0, 0],
+				[2, 8, 5, 0, 0, 0, 0, 0, 0],
+				[0, 0, 4, 9, 0, 6, 0, 0, 0],
+				[1, 0, 0, 0, 0, 0, 0, 6, 0],
+				[0, 0, 0, 0, 1, 3, 9, 0, 0],
+				[0, 2, 0, 0, 0, 0, 4, 0, 0],
+				[4, 0, 8, 5, 0, 0, 0, 0, 2],
+				[0, 0, 0, 8, 0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 6, 0, 0, 8, 5]]'''
 
 	window_app= tk.Tk()
 	drawing_object=draw_window(window_app)
 	window_app.mainloop()
 
-	sudoku_array=[[0, 0, 6, 0, 0, 7, 0, 0, 0],
-			[2, 8, 5, 0, 0, 0, 0, 0, 0],
-			[0, 0, 4, 9, 0, 6, 0, 0, 0],
-			[1, 0, 0, 0, 0, 0, 0, 6, 0],
-			[0, 0, 0, 0, 1, 3, 9, 0, 0],
-			[0, 2, 0, 0, 0, 0, 4, 0, 0],
-			[4, 0, 8, 5, 0, 0, 0, 0, 2],
-			[0, 0, 0, 8, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 6, 0, 0, 8, 5]]
-
-	'''Result=solution(sudoku_array)
+	'''Result=solution()
 	if Result:
 		print(sudoku_array)
 	else:
