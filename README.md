@@ -11,4 +11,4 @@
 
 # Image:
 
-![image](www.github.com/VaibhavModi/Sudoku-Game-Solver-GUI/Screenshot/Annotation.png)
+![ScreenShot](/Screenshot/Annotation.png)
