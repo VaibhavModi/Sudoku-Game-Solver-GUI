@@ -51,9 +51,11 @@ class Sudoku_Solver:
             if self.number_safety(x, y, i):
                 sudoku_array[x][y] = i
                 entrybox_list[x][y].insert(0, i)
+                entrybox_list[x][y].configure(state='readonly')
                 if self.solution():
                     return True
                 sudoku_array[x][y] = 0
+                entrybox_list[x][y].configure(state='normal')
                 entrybox_list[x][y].delete(0, 'end')
         return False
 
@@ -122,21 +124,20 @@ class draw_window:
                     entrybox_list[i][j].configure(fg='green')
                 else:
                     sudoku_array[i].append(int(entrybox_list[i][j].get()))
-                    entrybox_list[i][j].configure(fg='blue')
-
-
+                    entrybox_list[i][j].configure(fg='blue',state='readonly')
         solve_bt.configure(state='disable')
         self.master.focus()
         Sudoku_SolverObj=Sudoku_Solver()
         Sudoku_SolverObj.solution()
+
 
     def clear(self):
         for entries in entrybox_list:
             if sudoku_array:
                 sudoku_array.pop()
             for entry in entries:
+                entry.configure(fg='blue',state='normal')
                 entry.delete(0, 'end')
-                entry.configure(fg='blue')
         solve_bt.configure(state='normal')
         self.master.focus()
 
