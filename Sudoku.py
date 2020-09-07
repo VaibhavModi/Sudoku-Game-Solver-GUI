@@ -64,7 +64,7 @@ class draw_window:
     entrybox_list = []
 
     def __init__(self, master):
-        master.geometry('505x520')
+        master.geometry('505x530')
         master.title('Sudoku Solver')
         master.resizable(False, False)
         master.configure(bg='peachpuff')
@@ -76,7 +76,7 @@ class draw_window:
     def upper_frame(self, master):
         global solve_bt
         frame1 = tk.Frame(master, bg='peachpuff')
-        label1 = tk.Label(frame1,fg='purple', bg='silver',text='>> To solve a Sudoku, fill up the board and press solve <<', font=('MS Serif', 14)).pack(side='top', anchor='w', padx=20, pady=(10, 1))
+        label1 = tk.Label(frame1,fg='purple', bg='white',text='>>    To solve a Sudoku, fill up the board and press solve    <<', font=('MS Serif', 14)).pack(side='top', anchor='w', padx=20, pady=(10, 1))
         solve_bt = tk.Button(frame1, text='Solve', height=1, width=5, font=('Helvetica', 15, 'bold'),
                              command=lambda: self.solve(), bg='orange', fg='White', padx=0)
         solve_bt.pack(side='left',
