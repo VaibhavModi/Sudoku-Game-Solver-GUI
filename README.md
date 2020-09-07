@@ -9,6 +9,6 @@
 - Object-Oriented Programming.
 - Added entry/input Validation.
 
-# Image:
+# ScreenShot:
 
-![ScreenShot](/Screenshot/Annotation1.png)
+>![ScreenShot](/Screenshot/Annotation1.png)
